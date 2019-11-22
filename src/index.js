@@ -1,11 +1,15 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { addField, FieldTitle } from 'ra-core';
-import { DatePicker, TimePicker, DateTimePicker } from 'material-ui-pickers';
-import DateFnsUtils from 'material-ui-pickers/utils/date-fns-utils';
-import MuiPickersUtilsProvider from 'material-ui-pickers/utils/MuiPickersUtilsProvider';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { addField, FieldTitle } from "ra-core";
+import {
+  DatePicker,
+  TimePicker,
+  DateTimePicker,
+  MuiPickersUtilsProvider
+} from "material-ui-pickers";
+import DateFnsUtils from "material-ui-pickers/utils/date-fns-utils";
 
-const makePicker = (PickerComponent) => {
+const makePicker = PickerComponent => {
   class _makePicker extends Component {
     onChange(date) {
       this.props.input.onChange(date);
@@ -22,7 +26,7 @@ const makePicker = (PickerComponent) => {
         isRequired,
         className,
         meta,
-        providerOptions,
+        providerOptions
       } = this.props;
 
       const { touched, error } = meta;
@@ -32,16 +36,20 @@ const makePicker = (PickerComponent) => {
           <MuiPickersUtilsProvider {...providerOptions}>
             <PickerComponent
               {...options}
-              label={<FieldTitle
-                label={label}
-                source={source}
-                resource={resource}
-                isRequired={isRequired}
-              />}
+              label={
+                <FieldTitle
+                  label={label}
+                  source={source}
+                  resource={resource}
+                  isRequired={isRequired}
+                />
+              }
               margin="normal"
               error={!!(touched && error)}
               helperText={touched && error}
-              ref={(node) => { this.picker = node; }}
+              ref={node => {
+                this.picker = node;
+              }}
               className={className}
               value={input.value ? input.value : null}
               onChange={date => this.onChange(date)}
@@ -63,23 +71,23 @@ const makePicker = (PickerComponent) => {
     className: PropTypes.string,
     providerOptions: PropTypes.shape({
       utils: PropTypes.func,
-      locale: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
-    }),
+      locale: PropTypes.oneOfType([PropTypes.object, PropTypes.string])
+    })
   };
 
   _makePicker.defaultProps = {
     input: {},
-    isRequired: 'false',
+    isRequired: "false",
     meta: { touched: false, error: false },
     options: {},
-    resource: '',
-    source: '',
-    labelTime: '',
-    className: '',
+    resource: "",
+    source: "",
+    labelTime: "",
+    className: "",
     providerOptions: {
       utils: DateFnsUtils,
-      locale: undefined,
-    },
+      locale: undefined
+    }
   };
   return _makePicker;
 };
